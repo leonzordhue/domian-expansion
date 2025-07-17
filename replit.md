@@ -45,9 +45,15 @@ The application follows a monolithic architecture with a clear separation betwee
 - **Positions**: Enum-like validation for levantador, libero, jogador
 
 ### Authentication & Authorization
-- Currently using in-memory storage for development
+- Using PostgreSQL database for persistent storage
 - Session-based authentication infrastructure in place (connect-pg-simple)
 - No user authentication implemented yet - single-user application
+
+### Database Implementation
+- **Primary Storage**: PostgreSQL with Drizzle ORM
+- **Fallback**: In-memory storage for development (automatic detection)
+- **Tables**: players, game_sessions with full CRUD operations
+- **Connection**: Neon serverless PostgreSQL with WebSocket support
 
 ## Data Flow
 

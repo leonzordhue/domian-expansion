@@ -1,4 +1,6 @@
 import { players, gameSessions, type Player, type InsertPlayer, type GameSession, type InsertGameSession } from "@shared/schema";
+import { db } from "./db";
+import { eq, desc } from "drizzle-orm";
 
 export interface IStorage {
   // Player operations
@@ -10,6 +12,45 @@ export interface IStorage {
   getAllGameSessions(): Promise<GameSession[]>;
   createGameSession(session: InsertGameSession): Promise<GameSession>;
   deleteGameSession(id: number): Promise<void>;
+}
+
+export class DatabaseStorage implements IStorage {
+  async getAllPlayers(): Promise<Player[]> {
+    const result = await db.select().from(players);
+    return result;
+  }
+
+  async createPlayer(insertPlayer: InsertPlayer): Promise<Player> {
+    const [player] = await db
+      .insert(players)
+      .values(insertPlayer)
+      .returning();
+    return player;
+  }
+
+  async deletePlayer(id: number): Promise<void> {
+    await db.delete(players).where(eq(players.id, id));
+  }
+
+  async getAllGameSessions(): Promise<GameSession[]> {
+    const result = await db
+      .select()
+      .from(gameSessions)
+      .orderBy(desc(gameSessions.createdAt));
+    return result;
+  }
+
+  async createGameSession(insertSession: InsertGameSession): Promise<GameSession> {
+    const [session] = await db
+      .insert(gameSessions)
+      .values(insertSession)
+      .returning();
+    return session;
+  }
+
+  async deleteGameSession(id: number): Promise<void> {
+    await db.delete(gameSessions).where(eq(gameSessions.id, id));
+  }
 }
 
 export class MemStorage implements IStorage {
@@ -62,4 +103,5 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+// Use DatabaseStorage for production, MemStorage for fallback
+export const storage = process.env.DATABASE_URL ? new DatabaseStorage() : new MemStorage();

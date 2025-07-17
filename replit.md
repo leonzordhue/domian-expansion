@@ -4,6 +4,8 @@
 
 This is a full-stack volleyball team sorting application built with React, Express, and Drizzle ORM. The application allows users to manage volleyball players with different positions (levantador, libero, jogador) and automatically sort them into balanced teams for either quarteto (4-player) or sexteto (6-player) volleyball games.
 
+**Status**: Ready for deployment and production use.
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.

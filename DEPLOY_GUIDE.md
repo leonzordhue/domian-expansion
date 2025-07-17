@@ -10,7 +10,18 @@
 4. **Conecte com GitHub:**
    - Se não tem GitHub, crie em: https://github.com
    - Faça upload dos arquivos do seu projeto no GitHub
-5. **Import Repository** e deploy automático!
+5. **Import Repository** e configure:
+
+### Configurações do Vercel:
+- **Framework Preset:** `Other`
+- **Root Directory:** (deixe vazio)
+- **Build Command:** `npm run build`
+- **Output Directory:** `dist/public`
+- **Install Command:** `npm install`
+
+### Environment Variables:
+- `DATABASE_URL`: sua connection string do Neon
+- `NODE_ENV`: `production`
 
 ### Link ficará assim:
 `seuapp.vercel.app`

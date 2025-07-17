@@ -55,7 +55,7 @@ function sortTeams(players: any[], gameType: string, numberOfTeams: number) {
       colors: teamColors[i],
       levantador: shuffledLevantadores[i],
       libero: shuffledLiberos[i],
-      jogadores: []
+      jogadores: [] as any[]
     };
     teams.push(team);
   }
@@ -73,7 +73,7 @@ function sortTeams(players: any[], gameType: string, numberOfTeams: number) {
   for (let i = 0; i < numberOfTeams; i++) {
     const startIndex = i * playersToDistribute;
     const endIndex = startIndex + playersToDistribute;
-    teams[i].jogadores = shuffledRemainingPlayers.slice(startIndex, endIndex);
+    teams[i].jogadores = shuffledRemainingPlayers.slice(startIndex, endIndex) as any[];
   }
 
   return teams;
@@ -135,7 +135,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json({ teams });
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      res.status(400).json({ error: error instanceof Error ? error.message : "Unknown error" });
     }
   });
 
